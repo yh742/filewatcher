@@ -23,12 +23,7 @@ def create_app(config_name):
     logger = app.logger
 
     #add blueprint
-
     from app.api.routes import mod
-    #from app.site.routes import mod
-    #from app.admin.routes import mod
-    #app.register_blueprint(site.routes.mod)
     app.register_blueprint(mod, url_prefix='/api')
-    #app.register_blueprint(admin.routes.mod, url_prefix='/admin')
     
     return app

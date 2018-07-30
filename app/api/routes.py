@@ -1,7 +1,11 @@
 from flask import Blueprint
+from flask_restful import Api, Resource
 
 mod = Blueprint('api', __name__)
+api = Api(mod)
 
-@mod.route('/getStuff')
-def getStuff():
-	return '{"result" : "You are in the API!!!"}'
+class Hello(Resource):
+    def get(self):
+        return {"message": "Hello, World!"}
+
+api.add_resource(Hello, '/Hello')
