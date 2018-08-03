@@ -31,11 +31,15 @@ class FileRetriever(Resource):
 class ServerNotification(Resource):
     def get(self):
         def event_stream():
-            while True:
-                fw = FileWatcher() 
-                fw.watch('./test/')
-                evt_desc = fw.wait()
-                yield 'data: {}\n\n'.format(json.dumps(evt_desc))
+            fw = FileWatcher()
+            fw.watch('./test/')
+            try: 
+                while True:
+                    fw.reset()
+                    evt_desc = fw.wait()
+                    yield 'data: {}\n\n'.format(json.dumps(evt_desc))
+            except:
+                fw.stop()
         return Response(event_stream(), mimetype="text/event-stream")
 
 api.add_resource(Hello, '/Hello')
