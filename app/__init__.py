@@ -17,7 +17,7 @@ def create_app(config_name):
     
     # add logging 
     handler = RotatingFileHandler(config_name + '.log', maxBytes=1000000, backupCount=10)
-    app.logger.setLevel(logging.ERROR)
+    app.logger.setLevel(logging.DEBUG)
     app.logger.addHandler(handler)
     global logger
     logger = app.logger

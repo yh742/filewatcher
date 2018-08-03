@@ -15,7 +15,6 @@ class Config(object):
 class DevelopmentConfig(Config):
     DEBUG = True
     ENV = 'development'
-    #SQLALCHEMY_ECHO = True
 
 class ProductionConfig(Config):
     DEBUG = False
