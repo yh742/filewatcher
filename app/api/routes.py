@@ -9,6 +9,10 @@ from app.api.file_watcher import FileWatcher
 mod = Blueprint('api', __name__)
 api = Api(mod)
 
+# initialize file watcher to test folder
+file_watcher = FileWatcher()
+file_watcher.watch('./test/')
+
 class Hello(Resource):
     def get(self):
         logger.debug('asdfdsf')
@@ -27,20 +31,20 @@ class FileRetriever(Resource):
             mimetype='image/jpeg',
             as_attachment=True,
             attachment_filename='%s.jpg' % 'a')
-
+        
 class ServerNotification(Resource):
     def get(self):
         def event_stream():
-            fw = FileWatcher()
-            fw.watch('./test/')
+            logger.debug('connected to event stream')
             try: 
                 while True:
-                    fw.reset()
-                    evt_desc = fw.wait()
-                    yield 'data: {}\n\n'.format(json.dumps(evt_desc))
-            except:
-                fw.stop()
+                    evt_desc = file_watcher.wait()
+                    logger.debug('Dumping Object: {}'.format(evt_desc))
+                    yield 'data: {}\n\n'.format(json.dumps(evt_desc['src_path']))
+            except Exception as e:
+                logger.debug('exception occured: ' + str(e))
         return Response(event_stream(), mimetype="text/event-stream")
+
 
 api.add_resource(Hello, '/Hello')
 api.add_resource(FileRetriever, '/FileRetriever')
