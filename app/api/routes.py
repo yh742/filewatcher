@@ -1,17 +1,17 @@
-import sys, time, json, io
+import sys, time, json, io, os
 
 from flask import Blueprint, Response, request, send_file
 from flask_restful import Api, Resource
 
-from app import logger
+from app import config, logger
 from app.api.file_watcher import FileWatcher
 
 mod = Blueprint('api', __name__)
 api = Api(mod)
 
-# initialize file watcher to test folder
+# initialize file watcher to WATCH_FOLDER
 file_watcher = FileWatcher()
-file_watcher.watch('./test/')
+file_watcher.watch(config['WATCH_FOLDER'])
 
 class Hello(Resource):
     def get(self):
@@ -22,6 +22,7 @@ class FileRetriever(Resource):
     def get(self):
         args = request.args
         logger.debug(args)
+        logger.debug(os.getcwd())
         data = b''
         with open(args['filename'], 'rb') as fin:
             data = io.BytesIO(fin.read())

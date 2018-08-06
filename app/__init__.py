@@ -5,6 +5,7 @@ from logging.handlers import RotatingFileHandler
 from config import app_config
 
 logger = None
+config = None
 
 def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
@@ -14,6 +15,8 @@ def create_app(config_name):
     # overrides if instance file exists
     app.config.from_pyfile('config.py')
     print(app.config)
+    global config
+    config = app.config
     
     # add logging 
     handler = RotatingFileHandler(config_name + '.log', maxBytes=1000000, backupCount=10)
