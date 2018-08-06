@@ -15,7 +15,7 @@ file_watcher.watch(config['WATCH_FOLDER'])
 
 class Hello(Resource):
     def get(self):
-        logger.debug('asdfdsf')
+        logger.debug('Hello!')
         return 'blah'
 
 class FileRetriever(Resource):
