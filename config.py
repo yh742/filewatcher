@@ -10,6 +10,7 @@ before running.
 """
 
 class Config(object):
+    WATCH_FOLDER= '../vzcam/outputs'
     pass
 
 class DevelopmentConfig(Config):

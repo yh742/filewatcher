@@ -13,7 +13,7 @@ def create_app(config_name):
     # register configuration files
     app.config.from_object(app_config[config_name])
     # overrides if instance file exists
-    app.config.from_pyfile('config.py')
+    # app.config.from_pyfile('config.py')
     print(app.config)
     global config
     config = app.config
