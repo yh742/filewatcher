@@ -1,8 +1,10 @@
 from flask import Flask
 import logging
+import os
 from logging.handlers import RotatingFileHandler 
 
 from config import app_config
+
 
 logger = None
 config = None
@@ -14,6 +16,9 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     # overrides if instance file exists
     # app.config.from_pyfile('config.py')
+    # override any variables
+    if 'WATCH_FOLDER' in os.environ:
+        app.config['WATCH_FOLDER'] = os.environ['WATCH_FOLDER']
     print(app.config)
     global config
     config = app.config
@@ -25,7 +30,7 @@ def create_app(config_name):
     global logger
     logger = app.logger
 
-    #add blueprint
+    # add blueprint
     from app.api.routes import mod
     app.register_blueprint(mod, url_prefix='/api')
     
